@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayan Music</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+        /* Loading Screen Styles */
+        
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        #loading-image {
+            width: 200px;
+            height: 200px;
+            background-color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        
+        #loading-text {
+            font-size: 24px;
+            letter-spacing: 10px;
+        }
+        
+        #loading-text span {
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        /* Main Page Styles */
+        
+        #main-page {
+            display: none;
+            height: 100vh;
+            padding: 20px;
+        }
+        /* Slider Styles */
+        
+        .slider-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: #333;
+            transition: left 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide.active {
+            left: 0;
+        }
+        
+        .dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background-color: #0088ff;
+            box-shadow: 0 0 10px #0088ff;
+        }
+        /* Search and Comment Box Styles */
+        
+        .glass-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+        }
+        
+        .glass-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            outline: none;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .glass-box svg {
+            margin: 0 10px;
+            opacity: 0.6;
+            width: 20px;
+            height: 20px;
+            stroke: #888;
+            fill: none;
+        }
+        
+        .glass-box input::placeholder {
+            color: #999;
+        }
+        /* Comments Section */
+        
+        .comments-section {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comments-header {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .comment {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .comment-user {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .comment-text {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div id="loading-image">
+            <img src="/api/placeholder/200/200" alt="Loading Image">
+        </div>
+        <div id="loading-text">
+            <span class="s">S</span>
+            <span class="h">h</span>
+            <span class="a1">a</span>
+            <span class="y">y</span>
+            <span class="a2">a</span>
+            <span class="n">n</span>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="main-page">
+        <!-- Image Slider -->
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide active">
+                    <img src="/api/placeholder/200/50" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="/api/placeholder/200/50" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="/api/placeholder/200/50" alt="Slide 3">
+                </div>
+            </div>
+            <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="glass-box">
+            <svg class="search-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search for the song you want">
+        </div>
+
+        <!-- Comment Box -->
+        <div class="glass-box">
+            <input type="text" id="comment-input" placeholder="Give your opinion">
+            <svg class="send-icon" id="send-comment" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 2L11 13"></path>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+            </svg>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">Comments</div>
+            <div id="comments-container">
+                <!-- Comments will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const letters = {
+                's': document.querySelector('.s'),
+                'h': document.querySelector('.h'),
+                'a1': document.querySelector('.a1'),
+                'y': document.querySelector('.y'),
+                'a2': document.querySelector('.a2'),
+                'n': document.querySelector('.n')
+            };
+
+            // Animate letters with different colors
+            setTimeout(() => {
+                letters.s.style.color = 'blue';
+                letters.s.style.opacity = '1';
+            }, 1000);
+
+            setTimeout(() => {
+                letters.h.style.color = 'yellow';
+                letters.h.style.opacity = '1';
+            }, 2000);
+
+            setTimeout(() => {
+                letters.a1.style.color = 'orange';
+                letters.a1.style.opacity = '1';
+            }, 3000);
+
+            setTimeout(() => {
+                letters.y.style.color = 'green';
+                letters.y.style.opacity = '1';
+            }, 4000);
+
+            setTimeout(() => {
+                letters.a2.style.color = 'orange';
+                letters.a2.style.opacity = '1';
+            }, 5000);
+
+            setTimeout(() => {
+                letters.n.style.color = 'purple';
+                letters.n.style.opacity = '1';
+            }, 6000);
+
+            // Show main page after 6 seconds
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+            }, 6000);
+        });
+
+        // Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        // Auto-change slides every 3 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 3000);
+
+        // Click on dots to change slide
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && searchInput.value.trim() !== '') {
+                // Replace with your actual music search URL
+                const searchTerm = encodeURIComponent(searchInput.value.trim());
+                window.location.href = `https://example.com/search?q=${searchTerm}`;
+            }
+        });
+
+        // Comment Functionality
+        const commentInput = document.getElementById('comment-input');
+        const sendComment = document.getElementById('send-comment');
+        const commentsContainer = document.getElementById('comments-container');
+
+        // Load saved comments from localStorage
+        function loadComments() {
+            const savedComments = localStorage.getItem('comments');
+            if (savedComments) {
+                commentsContainer.innerHTML = savedComments;
+            }
+        }
+
+        // Save comments to localStorage
+        function saveComments() {
+            localStorage.setItem('comments', commentsContainer.innerHTML);
+        }
+
+        // Add new comment
+        function addComment(text) {
+            const comment = document.createElement('div');
+            comment.className = 'comment';
+
+            const user = document.createElement('div');
+            user.className = 'comment-user';
+            user.textContent = 'User';
+
+            const commentText = document.createElement('div');
+            commentText.className = 'comment-text';
+            commentText.textContent = text;
+
+            comment.appendChild(user);
+            comment.appendChild(commentText);
+            commentsContainer.appendChild(comment);
+
+            saveComments();
+        }
+
+        sendComment.addEventListener('click', () => {
+            if (commentInput.value.trim() !== '') {
+                addComment(commentInput.value.trim());
+                commentInput.value = '';
+            }
+        });
+
+        commentInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && commentInput.value.trim() !== '') {
+                addComment(commentInput.value.trim());
+                commentInput.value = '';
+            }
+        });
+
+        // Load saved comments when page loads
+        loadComments();
+    </script>
+</body>
+
+</html>
