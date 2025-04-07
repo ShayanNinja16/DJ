@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Search</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        /* Loading Screen */
+        
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-image {
+            width: 120px;
+            height: 120px;
+        }
+        /* Main Content */
+        
+        #main-content {
+            display: none;
+            padding: 20px;
+        }
+        /* Slider */
+        
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .slide img {
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+        }
+        /* Search Box */
+        
+        .search-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0 15px;
+        }
+        
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            height: 100%;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="/api/placeholder/120/120" alt="Loading" class="loading-image">
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Image Slider -->
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <img src="/api/placeholder/100/50" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="/api/placeholder/100/50" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="/api/placeholder/100/50" alt="Slide 3">
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-container">
+            <div class="search-box">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="search-input" placeholder="Search for the song you want" id="search-input">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading screen timeout
+        setTimeout(function() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }, 7000);
+
+        // Slider functionality
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slide');
+        const slideCount = slides.length;
+        let currentSlide = 0;
+
+        function moveSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            moveSlider();
+        }
+
+        // Change slide every 3 seconds
+        setInterval(nextSlide, 3000);
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Replace with your actual search URL
+                    window.location.href = 'https://your-music-search-site.com/search?q=' + encodeURIComponent(query);
+                }
+            }
+        });
+
+        // Make the search box clickable
+        document.querySelector('.search-box').addEventListener('click', function() {
+            searchInput.focus();
+        });
+    </script>
+</body>
+
+</html>
