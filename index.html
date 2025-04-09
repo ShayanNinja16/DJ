@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شایان نینجا</title>
+    <style>
+        @import url('https://uupload.ir/view/remix_by_shayan_ninja__p9ug.mp3/');
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Rubik', Arial, sans-serif;
+            background-color: #f0f0f0;
+            direction: rtl;
+        }
+        /* Loading Screen */
+        
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-text {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+        
+        .blue-glow {
+            color: #007bff;
+            text-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff;
+            transition: all 0.5s ease;
+        }
+        
+        .red-glow {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            transition: all 0.5s ease;
+        }
+        /* Main Page */
+        
+        #main-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3rem;
+            color: #000;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+        }
+        
+        .tabs {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: #e9e9e9;
+        }
+        
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .video-container {
+            width: 300px;
+            height: 200px;
+            background-color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .audio-player {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .play-pause {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+        
+        .download-btn {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #e9e9e9;
+        }
+        
+        .reactions {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .reaction {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .reaction i {
+            font-size: 24px;
+            margin-left: 5px;
+        }
+        
+        .reaction span {
+            display: none;
+        }
+        /* Divider */
+        
+        .divider {
+            width: 1px;
+            background-color: #ddd;
+        }
+    </style>
+    <link rel="stylesheet" href="https://uupload.ir/view/remix_by_shayan_ninja__p9ug.mp3/">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-text">
+            <span id="first-word">شــایــانــ</span> <span id="second-word">نــینــجـا</span>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="main-page">
+        <div class="header">
+            <h1>Shayan Ninja</h1>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" id="newest-tab">جدیدترین</div>
+            <div class="divider"></div>
+            <div class="tab" id="oldest-tab">قدیمی‌ترین</div>
+        </div>
+
+        <div class="content active" id="newest-content">
+            <div class="video-container"></div>
+
+            <div class="audio-player">
+                <div class="play-pause" id="play-btn">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="progress-bar"></div>
+                <audio id="audio-player" style="display: none;">
+                    <source src="" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <div class="download-btn" id="download-btn">Download [320]</div>
+
+            <div class="reactions">
+                <div class="reaction" id="like-btn">
+                    <i class="far fa-thumbs-up"></i>
+                    <span id="like-count"></span>
+                </div>
+                <div class="reaction" id="dislike-btn">
+                    <i class="far fa-thumbs-down"></i>
+                    <span id="dislike-count"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="oldest-content">
+            <p>محتوای قدیمی‌ترین اینجا نمایش داده می‌شود.</p>
+        </div>
+    </div>
+
+    <script>
+        // Loading animation
+        window.onload = function() {
+            const firstWord = document.getElementById('first-word');
+            const secondWord = document.getElementById('second-word');
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainPage = document.getElementById('main-page');
+
+            // First second - شــایــانــ blue glow
+            setTimeout(() => {
+                firstWord.classList.add('blue-glow');
+                secondWord.classList.remove('red-glow');
+            }, 0);
+
+            // Second second - نــینــجـا red glow
+            setTimeout(() => {
+                firstWord.classList.remove('blue-glow');
+                secondWord.classList.add('red-glow');
+            }, 1000);
+
+            // Third second - شــایــانــ blue glow again
+            setTimeout(() => {
+                firstWord.classList.add('blue-glow');
+                secondWord.classList.remove('red-glow');
+            }, 2000);
+
+            // Fourth second - نــینــجـا red glow again
+            setTimeout(() => {
+                firstWord.classList.remove('blue-glow');
+                secondWord.classList.add('red-glow');
+            }, 3000);
+
+            // Show main page after 4 seconds
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainPage.style.display = 'block';
+            }, 4000);
+        };
+
+        // Tab functionality
+        document.getElementById('newest-tab').addEventListener('click', function() {
+            document.getElementById('newest-tab').classList.add('active');
+            document.getElementById('oldest-tab').classList.remove('active');
+            document.getElementById('newest-content').classList.add('active');
+            document.getElementById('oldest-content').classList.remove('active');
+        });
+
+        document.getElementById('oldest-tab').addEventListener('click', function() {
+            document.getElementById('oldest-tab').classList.add('active');
+            document.getElementById('newest-tab').classList.remove('active');
+            document.getElementById('oldest-content').classList.add('active');
+            document.getElementById('newest-content').classList.remove('active');
+        });
+
+        // Audio player functionality
+        const audioPlayer = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
+            } else {
+                // Set the source of the audio - replace with your audio URL
+                audioPlayer.src = "https://example.com/your-audio-file.mp3";
+                audioPlayer.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+            }
+        });
+
+        // Download button functionality
+        document.getElementById('download-btn').addEventListener('click', function() {
+            // Replace with your download URL
+            window.location.href = "https://uupload.ir/view/remix_by_shayan_ninja__p9ug.mp3/";
+        });
+
+        // Like and dislike functionality
+        document.getElementById('like-btn').addEventListener('click', function() {
+            document.getElementById('like-count').style.display = 'inline';
+            document.getElementById('like-count').textContent = '1';
+        });
+
+        document.getElementById('dislike-btn').addEventListener('click', function() {
+            document.getElementById('dislike-count').style.display = 'inline';
+            document.getElementById('dislike-count').textContent = '1';
+        });
+    </script>
+</body>
+
+</html>
