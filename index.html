@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شایان نینجا</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* جلوگیری از کپی متن */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            /* حذف مربع آبی هنگام کلیک */
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* قفل کردن زوم صفحه */
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* Loading Page Styles */
+        
+        #loadingPage {
+            text-align: center;
+            display: block;
+        }
+        
+        #loadingText {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #000000;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+        }
+        
+        .blue {
+            color: #00bfff !important;
+            text-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff;
+        }
+        
+        .red {
+            color: #ff4757 !important;
+            text-shadow: 0 0 20px #ff4757, 0 0 40px #ff4757;
+        }
+        
+        .fade-out {
+            animation: fadeOut 1s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+        /* Main Page Styles */
+        
+        #mainPage {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        #mainTitle {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            /* حذف مربع آبی و جلوگیری از کپی */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            outline: none;
+        }
+        
+        #mainTitle:hover {
+            transform: scale(1.05);
+        }
+        
+        .smoke-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .smoke-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: smokeAnimation 2s ease-out;
+            pointer-events: none;
+        }
+        
+        .smoke-blue::before {
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, transparent 70%);
+        }
+        
+        .smoke-red::before {
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.6) 0%, transparent 70%);
+        }
+        
+        @keyframes smokeAnimation {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .rectangles-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .rectangle {
+            height: 200px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            /* حذف مربع آبی و تأکید اضافی */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-focus-ring-color: transparent;
+            outline: none;
+            border: none;
+        }
+        
+        .rectangle:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .rectangle-1,
+        .rectangle-2 {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: #fff;
+        }
+        
+        .rectangle-3,
+        .rectangle-4,
+        .rectangle-5,
+        .rectangle-6 {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: #fff;
+        }
+        /* Video Pages Styles */
+        
+        #videoPage1,
+        #videoPage2 {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            /* حذف مربع آبی */
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            border: none;
+        }
+        
+        .back-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .media-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 30px;
+        }
+        
+        .video-placeholder,
+        .audio-placeholder {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed #000000;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            color: #000000;
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-placeholder {
+            width: 80%;
+            max-width: 800px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .audio-placeholder {
+            width: 60%;
+            max-width: 600px;
+            min-height: 100px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        /* VIDEO TAG PLACEHOLDER - Replace with actual video */
+        
+        video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        /* AUDIO TAG PLACEHOLDER - Replace with actual audio */
+        
+        audio {
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            #mainTitle {
+                font-size: 2.5rem;
+            }
+            #loadingText {
+                font-size: 2rem;
+            }
+            .rectangles-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .video-placeholder {
+                width: 95%;
+                min-height: 250px;
+            }
+            .audio-placeholder {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Page -->
+    <div id="loadingPage">
+        <div id="loadingText">شایان نینجا</div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="mainPage">
+        <div id="mainTitle">Shayan Ninja</div>
+
+        <div class="rectangles-container">
+            <div class="rectangle rectangle-1" onclick="showVideoPage1()">
+                <div>مکان عکس PNG</div>
+            </div>
+            <div class="rectangle rectangle-2" onclick="showVideoPage2()">
+                <div>مکان عکس PNG</div>
+            </div>
+            <div class="rectangle rectangle-3">
+                <div>بــه زودی</div>
+            </div>
+            <div class="rectangle rectangle-4">
+                <div>بــه زودی</div>
+            </div>
+            <div class="rectangle rectangle-5">
+                <div>بــه زودی</div>
+            </div>
+            <div class="rectangle rectangle-6">
+                <div>بــه زودی</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Page 1 -->
+    <div id="videoPage1">
+        <div class="back-arrow" onclick="showMainPage()">←</div>
+        <div class="media-container">
+            <div class="video-placeholder">
+                <!-- VIDEO TAG - جای قرار دادن ویدیو -->
+                <video controls preload="metadata" style="width: 100%; height: 100%; min-height: 300px; border-radius: 10px;">
+                    <source src="C:\Users\ramin laptop\Desktop\VID_20250601_002727_567.mp4" type="video/mp4">
+                    <source src="C:\Users\ramin laptop\Desktop\VID_20250601_002727_567.mp4" type="video/ogg">
+                    <source src="" type="video/webm">
+                    مرورگر شما از تگ ویدیو HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
+                </video>
+                <!-- پایان VIDEO TAG -->
+            </div>
+            <div class="audio-placeholder">
+                <!-- AUDIO TAG - جای قرار دادن موزیک -->
+                <audio controls preload="metadata" style="width: 100%; border-radius: 10px;">
+                    <source src="C:\Users\ramin laptop\Desktop\remix by shayan ninja .mp3" type="audio/mp3">
+                    <source src="C:\Users\ramin laptop\Desktop\remix by shayan ninja .mp3" type="audio/ogg">
+                    <source src="" type="audio/wav">
+                    مرورگر شما از تگ صدا HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
+                </audio>
+                <!-- پایان AUDIO TAG -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Page 2 -->
+    <div id="videoPage2">
+        <div class="back-arrow" onclick="showMainPage()">←</div>
+        <div class="media-container">
+            <div class="video-placeholder">
+                <!-- VIDEO TAG - جای قرار دادن ویدیو -->
+                <video controls preload="metadata" style="width: 100%; height: 100%; min-height: 300px; border-radius: 10px;">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    <source src="https://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+                    <source src="sample-video.webm" type="video/webm">
+                    مرورگر شما از تگ ویدیو HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
+                </video>
+                <!-- پایان VIDEO TAG -->
+            </div>
+            <div class="audio-placeholder">
+                <!-- AUDIO TAG - جای قرار دادن موزیک -->
+                <audio controls preload="metadata" style="width: 100%; border-radius: 10px;">
+                    <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mp3">
+                    <source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg">
+                    <source src="sample-audio.wav" type="audio/wav">
+                    مرورگر شما از تگ صدا HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
+                </audio>
+                <!-- پایان AUDIO TAG -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let titleClickCount = 0;
+
+        // Loading Animation
+        function startLoadingAnimation() {
+            const loadingText = document.getElementById('loadingText');
+            const words = loadingText.innerHTML.split(' ');
+
+            // ثانیه 1 - شایان آبی
+            setTimeout(() => {
+                loadingText.innerHTML = `<span class="blue">${words[0]}</span> ${words[1]}`;
+            }, 1000);
+
+            // ثانیه 2 - نینجا قرمز
+            setTimeout(() => {
+                loadingText.innerHTML = `${words[0]} <span class="red">${words[1]}</span>`;
+            }, 2000);
+
+            // ثانیه 3 - شایان آبی
+            setTimeout(() => {
+                loadingText.innerHTML = `<span class="blue">${words[0]}</span> ${words[1]}`;
+            }, 3000);
+
+            // ثانیه 4 - نینجا قرمز
+            setTimeout(() => {
+                loadingText.innerHTML = `${words[0]} <span class="red">${words[1]}</span>`;
+            }, 4000);
+
+            // ثانیه 5 - محو شدن و رفتن به صفحه اصلی
+            setTimeout(() => {
+                loadingText.classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('loadingPage').style.display = 'none';
+                    document.getElementById('mainPage').style.display = 'block';
+                }, 1000);
+            }, 5000);
+        }
+
+        // Main Title Click Handler
+        document.getElementById('mainTitle').addEventListener('click', function() {
+            titleClickCount++;
+            const title = this;
+
+            // Remove previous classes
+            title.classList.remove('smoke-effect', 'smoke-blue', 'smoke-red', 'blue', 'red');
+
+            if (titleClickCount === 1) {
+                // First click - Blue smoke and color
+                title.classList.add('smoke-effect', 'smoke-blue', 'blue');
+            } else if (titleClickCount === 2) {
+                // Second click - Red smoke and color
+                title.classList.add('smoke-effect', 'smoke-red', 'red');
+            } else {
+                // Third click - Reset to normal
+                titleClickCount = 0;
+                title.style.color = '#fff';
+            }
+
+            // Remove smoke effect after animation
+            setTimeout(() => {
+                title.classList.remove('smoke-effect', 'smoke-blue', 'smoke-red');
+            }, 2000);
+        });
+
+        // Navigation Functions
+        function showVideoPage1() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('videoPage1').style.display = 'block';
+        }
+
+        function showVideoPage2() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('videoPage2').style.display = 'block';
+        }
+
+        function showMainPage() {
+            document.getElementById('videoPage1').style.display = 'none';
+            document.getElementById('videoPage2').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'block';
+        }
+
+        // Start the loading animation when page loads
+        window.addEventListener('load', startLoadingAnimation);
+    </script>
+</body>
+
+</html>
