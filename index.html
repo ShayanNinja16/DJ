@@ -3,472 +3,763 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>شایان نینجا</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayan Ninja</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* جلوگیری از کپی متن */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            /* حذف مربع آبی هنگام کلیک */
-            -webkit-tap-highlight-color: transparent;
-            outline: none;
+            outline: none !important;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #000000 0%, #000000 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* قفل کردن زوم صفحه */
-            touch-action: manipulation;
+            overflow-x: hidden;
+            zoom: 1;
+            -webkit-text-size-adjust: 100%;
+        }
+        /* Prevent zoom and click effects */
+        
+        button,
+        a,
+        div {
+            -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            outline: none !important;
+            border: none;
         }
-        /* Loading Page Styles */
+        /* Loading Screen */
         
-        #loadingPage {
-            text-align: center;
-            display: block;
-        }
-        
-        #loadingText {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #000000;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 3px;
-        }
-        
-        .blue {
-            color: #00bfff !important;
-            text-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff;
-        }
-        
-        .red {
-            color: #ff4757 !important;
-            text-shadow: 0 0 20px #ff4757, 0 0 40px #ff4757;
-        }
-        
-        .fade-out {
-            animation: fadeOut 1s ease-out forwards;
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-        }
-        /* Main Page Styles */
-        
-        #mainPage {
-            display: none;
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 20px;
-            min-height: 100vh;
-            position: relative;
-        }
-        
-        #mainTitle {
-            text-align: center;
-            font-size: 4rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            /* حذف مربع آبی و جلوگیری از کپی */
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            outline: none;
-        }
-        
-        #mainTitle:hover {
-            transform: scale(1.05);
-        }
-        
-        .smoke-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .smoke-effect::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            animation: smokeAnimation 2s ease-out;
-            pointer-events: none;
-        }
-        
-        .smoke-blue::before {
-            background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, transparent 70%);
-        }
-        
-        .smoke-red::before {
-            background: radial-gradient(circle, rgba(255, 71, 87, 0.6) 0%, transparent 70%);
-        }
-        
-        @keyframes smokeAnimation {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .rectangles-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .rectangle {
-            height: 200px;
-            border-radius: 15px;
+            height: 100%;
+            background: linear-gradient(45deg, #000000, #000000);
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.5rem;
+            z-index: 9999;
+        }
+        
+        .loading-text {
+            font-size: 3rem;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-            /* حذف مربع آبی و تأکید اضافی */
-            -webkit-tap-highlight-color: transparent;
-            -webkit-focus-ring-color: transparent;
-            outline: none;
-            border: none;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
-        .rectangle:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .shayan {
+            transition: color 0.3s ease;
         }
         
-        .rectangle-1,
-        .rectangle-2 {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: #fff;
+        .ninja {
+            transition: color 0.3s ease;
         }
+        /* Main Screen */
         
-        .rectangle-3,
-        .rectangle-4,
-        .rectangle-5,
-        .rectangle-6 {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: #fff;
-        }
-        /* Video Pages Styles */
-        
-        #videoPage1,
-        #videoPage2 {
+        .main-screen {
             display: none;
-            width: 100%;
-            padding: 20px;
             min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
             position: relative;
         }
         
-        .back-arrow {
+        .main-title {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+        
+        .title-shayan {
+            transition: color 0.5s ease;
+        }
+        
+        .title-ninja {
+            transition: color 0.5s ease;
+        }
+        /* Menu Toggle */
+        
+        .menu-toggle {
             position: absolute;
             top: 20px;
             left: 20px;
-            font-size: 2rem;
-            color: #fff;
             cursor: pointer;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
             z-index: 1000;
-            /* حذف مربع آبی */
-            -webkit-tap-highlight-color: transparent;
-            outline: none;
-            border: none;
         }
         
-        .back-arrow:hover {
-            background: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
+        .dots {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin: 4px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-panel {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            width: 160px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-panel:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+        
+        .menu-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            margin-right: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .menu-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .menu-text {
+            color: #000000;
+            font-weight: bold;
+        }
+        /* Content Grid */
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content-card {
+            background: rgba(92, 92, 92, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card-image img:hover {
+            transform: scale(1.05);
+        }
+        
+        .read-more-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more-btn:hover {
+            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        /* Content Pages */
+        
+        .content-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            text-align: center;
         }
         
         .media-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            gap: 30px;
-        }
-        
-        .video-placeholder,
-        .audio-placeholder {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed #000000;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            color: #000000;
-            font-size: 1.2rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        .video-placeholder {
-            width: 80%;
             max-width: 800px;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .audio-placeholder {
-            width: 60%;
-            max-width: 600px;
-            min-height: 100px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        /* VIDEO TAG PLACEHOLDER - Replace with actual video */
-        
-        video {
-            width: 100%;
-            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 15px;
+            padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
         }
-        /* AUDIO TAG PLACEHOLDER - Replace with actual audio */
         
-        audio {
+        .video-player {
             width: 100%;
             max-width: 600px;
+            height: 350px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            background: #000;
         }
         
-        .hidden {
-            display: none;
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
+            border-radius: 5px;
         }
+        
+        .like-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .like-btn,
+        .dislike-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .like-btn:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .dislike-btn:hover {
+            border-color: #f44336;
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+        
+        .like-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .dislike-btn.active {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        /* Responsive Design */
         
         @media (max-width: 768px) {
-            #mainTitle {
+            .main-title {
                 font-size: 2.5rem;
             }
-            #loadingText {
+            .loading-text {
                 font-size: 2rem;
             }
-            .rectangles-container {
+            .content-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-            .video-placeholder {
-                width: 95%;
-                min-height: 250px;
+            .menu-panel {
+                width: 140px;
+                height: 45px;
             }
-            .audio-placeholder {
-                width: 90%;
+            .menu-icon {
+                width: 30px;
+                height: 30px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Loading Page -->
-    <div id="loadingPage">
-        <div id="loadingText">شایان نینجا</div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">
+            <span class="shayan">شـایـان</span> <span class="ninja">نــینجـا</span>
+        </div>
     </div>
 
-    <!-- Main Page -->
-    <div id="mainPage">
-        <div id="mainTitle">Shayan Ninja</div>
+    <!-- Main Screen -->
+    <div class="main-screen" id="mainScreen">
+        <div class="header">
+            <div class="menu-toggle" id="menuToggle">
+                <div class="dots"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+            </div>
 
-        <div class="rectangles-container">
-            <div class="rectangle rectangle-1" onclick="showVideoPage1()">
-                <div>شایان نینجا</div>
+            <div class="menu-panel" id="menuPanel">
+                <div class="menu-icon">
+                    <img src="https://s6.uupload.ir/files/telgrampng.parspng.com-3_1gcv.png" alt="Telegram Icon">
+                </div>
+                <div class="menu-text">Telegram Me</div>
             </div>
-            <div class="rectangle rectangle-2" onclick="showVideoPage2()">
-                <div>شایان نینجا</div>
+
+            <h1 class="main-title">
+                <span class="title-shayan">Shayan</span> <span class="title-ninja">Ninja</span>
+            </h1>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 1">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(1)">ادامـه مــطلب</button>
             </div>
-            <div class="rectangle rectangle-3">
-                <div>بــه زودی</div>
+
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 2">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(2)">ادامـه مــطلب</button>
             </div>
-            <div class="rectangle rectangle-4">
-                <div>بــه زودی</div>
+
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 3">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(3)">ادامـه مــطلب</button>
             </div>
-            <div class="rectangle rectangle-5">
-                <div>بــه زودی</div>
+
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 4">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(4)">ادامـه مــطلب</button>
             </div>
-            <div class="rectangle rectangle-6">
-                <div>بــه زودی</div>
+
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 5">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(5)">ادامـه مــطلب</button>
+            </div>
+
+            <div class="content-card">
+                <div class="card-image">
+                    <img src="https://s6.uupload.ir/files/220_f_130797272_jsh9scrbnihsyqxv6vvmrml4qlszfjwf_zarw.jpg" alt="تصویر محتوای 6">
+                </div>
+                <button class="read-more-btn" onclick="showContentPage(6)">ادامـه مــطلب</button>
             </div>
         </div>
     </div>
 
-    <!-- Video Page 1 -->
-    <div id="videoPage1">
-        <div class="back-arrow" onclick="showMainPage()">←</div>
+    <!-- Content Pages -->
+    <div class="content-page" id="contentPage1">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
         <div class="media-container">
-            <div class="video-placeholder">
-                <!-- VIDEO TAG - جای قرار دادن ویدیو -->
-                <video controls preload="metadata" style="width: 100%; height: 100%; min-height: 300px; border-radius: 10px;">
-                    <source src=VID_20250601_105421_623.mp4"" type="video/mp4">
-                    <source src="VID_20250601_105421_623.mp4" type="video/ogg">
-                    <source src="" type="video/webm">
-                    مرورگر شما از تگ ویدیو HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
-                </video>
-                <!-- پایان VIDEO TAG -->
-            </div>
-            <div class="audio-placeholder">
-                <!-- AUDIO TAG - جای قرار دادن موزیک -->
-                <audio controls preload="metadata" style="width: 100%; border-radius: 10px;">
-                    <source src="cukur-hic-isik-yok-no-1-ft-melek-mosso.mp3" type="audio/mp3">
-                    <source src="cukur-hic-isik-yok-no-1-ft-melek-mosso.mp3" type="audio/ogg">
-                    <source src="" type="audio/wav">
-                    مرورگر شما از تگ صدا HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
-                </audio>
-                <!-- پایان AUDIO TAG -->
+            <video class="video-player" controls>
+                <source src="your-video-1.mp4" type="video/mp4">
+                <source src="your-video-1.webm" type="video/webm">
+                <source src="your-video-1.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-1.mp3" type="audio/mpeg">
+                <source src="your-audio-1.ogg" type="audio/ogg">
+                <source src="your-audio-1.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(1, 'like')">
+                    <span>👍</span> <span id="likeCount1">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(1, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount1">0</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Video Page 2 -->
-    <div id="videoPage2">
-        <div class="back-arrow" onclick="showMainPage()">←</div>
+    <div class="content-page" id="contentPage2">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
         <div class="media-container">
-            <div class="video-placeholder">
-                <!-- VIDEO TAG - جای قرار دادن ویدیو -->
-                <video controls preload="metadata" style="width: 100%; height: 100%; min-height: 300px; border-radius: 10px;">
-                    <source src="VID_20250601_002727_567.mp4" type="video/mp4">
-                    <source src="VID_20250601_002727_567.mp4" type="video/ogg">
-                    <source src="" type="video/webm">
-                    مرورگر شما از تگ ویدیو HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
-                </video>
-                <!-- پایان VIDEO TAG -->
+            <video class="video-player" controls>
+                <source src="your-video-2.mp4" type="video/mp4">
+                <source src="your-video-2.webm" type="video/webm">
+                <source src="your-video-2.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-2.mp3" type="audio/mpeg">
+                <source src="your-audio-2.ogg" type="audio/ogg">
+                <source src="your-audio-2.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(2, 'like')">
+                    <span>👍</span> <span id="likeCount2">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(2, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount2">0</span>
+                </button>
             </div>
-            <div class="audio-placeholder">
-                <!-- AUDIO TAG - جای قرار دادن موزیک -->
-                <audio controls preload="metadata" style="width: 100%; border-radius: 10px;">
-                    <source src="remix by shayan ninja .mp3" type="audio/mp3">
-                    <source src="remix by shayan ninja .mp3" type="audio/ogg">
-                    <source src="" type="audio/wav">
-                    مرورگر شما از تگ صدا HTML5 پشتیبانی نمی‌کند. لطفاً مرورگر خود را به‌روزرسانی کنید.
-                </audio>
-                <!-- پایان AUDIO TAG -->
+        </div>
+    </div>
+
+    <div class="content-page" id="contentPage3">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
+        <div class="media-container">
+            <video class="video-player" controls>
+                <source src="your-video-3.mp4" type="video/mp4">
+                <source src="your-video-3.webm" type="video/webm">
+                <source src="your-video-3.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-3.mp3" type="audio/mpeg">
+                <source src="your-audio-3.ogg" type="audio/ogg">
+                <source src="your-audio-3.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(3, 'like')">
+                    <span>👍</span> <span id="likeCount3">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(3, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount3">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-page" id="contentPage4">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
+        <div class="media-container">
+            <video class="video-player" controls>
+                <source src="your-video-4.mp4" type="video/mp4">
+                <source src="your-video-4.webm" type="video/webm">
+                <source src="your-video-4.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-4.mp3" type="audio/mpeg">
+                <source src="your-audio-4.ogg" type="audio/ogg">
+                <source src="your-audio-4.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(4, 'like')">
+                    <span>👍</span> <span id="likeCount4">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(4, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount4">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-page" id="contentPage5">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
+        <div class="media-container">
+            <video class="video-player" controls>
+                <source src="your-video-5.mp4" type="video/mp4">
+                <source src="your-video-5.webm" type="video/webm">
+                <source src="your-video-5.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-5.mp3" type="audio/mpeg">
+                <source src="your-audio-5.ogg" type="audio/ogg">
+                <source src="your-audio-5.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(5, 'like')">
+                    <span>👍</span> <span id="likeCount5">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(5, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount5">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-page" id="contentPage6">
+        <button class="back-btn" onclick="showMainScreen()">بازگشت</button>
+        <div class="media-container">
+            <video class="video-player" controls>
+                <source src="your-video-6.mp4" type="video/mp4">
+                <source src="your-video-6.webm" type="video/webm">
+                <source src="your-video-6.ogg" type="video/ogg">
+                مرورگر شما از تگ ویدیو پشتیبانی نمی‌کند.
+            </video>
+
+            <audio class="audio-player" controls>
+                <source src="your-audio-6.mp3" type="audio/mpeg">
+                <source src="your-audio-6.ogg" type="audio/ogg">
+                <source src="your-audio-6.wav" type="audio/wav">
+                مرورگر شما از تگ صوتی پشتیبانی نمی‌کند.
+            </audio>
+
+            <div class="like-section">
+                <button class="like-btn" onclick="handleLike(6, 'like')">
+                    <span>👍</span> <span id="likeCount6">0</span>
+                </button>
+                <button class="dislike-btn" onclick="handleLike(6, 'dislike')">
+                    <span>👎</span> <span id="dislikeCount6">0</span>
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        let titleClickCount = 0;
-
-        // Loading Animation
-        function startLoadingAnimation() {
-            const loadingText = document.getElementById('loadingText');
-            const words = loadingText.innerHTML.split(' ');
-
-            // ثانیه 1 - شایان آبی
-            setTimeout(() => {
-                loadingText.innerHTML = `<span class="blue">${words[0]}</span> ${words[1]}`;
-            }, 1000);
-
-            // ثانیه 2 - نینجا قرمز
-            setTimeout(() => {
-                loadingText.innerHTML = `${words[0]} <span class="red">${words[1]}</span>`;
-            }, 2000);
-
-            // ثانیه 3 - شایان آبی
-            setTimeout(() => {
-                loadingText.innerHTML = `<span class="blue">${words[0]}</span> ${words[1]}`;
-            }, 3000);
-
-            // ثانیه 4 - نینجا قرمز
-            setTimeout(() => {
-                loadingText.innerHTML = `${words[0]} <span class="red">${words[1]}</span>`;
-            }, 4000);
-
-            // ثانیه 5 - محو شدن و رفتن به صفحه اصلی
-            setTimeout(() => {
-                loadingText.classList.add('fade-out');
-                setTimeout(() => {
-                    document.getElementById('loadingPage').style.display = 'none';
-                    document.getElementById('mainPage').style.display = 'block';
-                }, 1000);
-            }, 5000);
-        }
-
-        // Main Title Click Handler
-        document.getElementById('mainTitle').addEventListener('click', function() {
-            titleClickCount++;
-            const title = this;
-
-            // Remove previous classes
-            title.classList.remove('smoke-effect', 'smoke-blue', 'smoke-red', 'blue', 'red');
-
-            if (titleClickCount === 1) {
-                // First click - Blue smoke and color
-                title.classList.add('smoke-effect', 'smoke-blue', 'blue');
-            } else if (titleClickCount === 2) {
-                // Second click - Red smoke and color
-                title.classList.add('smoke-effect', 'smoke-red', 'red');
-            } else {
-                // Third click - Reset to normal
-                titleClickCount = 0;
-                title.style.color = '#fff';
+        // Prevent zooming and copying
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {
+                e.preventDefault();
             }
-
-            // Remove smoke effect after animation
-            setTimeout(() => {
-                title.classList.remove('smoke-effect', 'smoke-blue', 'smoke-red');
-            }, 2000);
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'a' || e.key === 'v')) {
+                e.preventDefault();
+            }
         });
 
-        // Navigation Functions
-        function showVideoPage1() {
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('videoPage1').style.display = 'block';
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        });
+
+        // Loading screen animation
+        let loadingInterval;
+        let currentSecond = 0;
+
+        function startLoadingAnimation() {
+            const shayan = document.querySelector('.loading-screen .shayan');
+            const ninja = document.querySelector('.loading-screen .ninja');
+
+            loadingInterval = setInterval(() => {
+                currentSecond++;
+
+                // Reset colors
+                shayan.style.color = 'white';
+                ninja.style.color = 'white';
+
+                if (currentSecond === 1 || currentSecond === 3) {
+                    shayan.style.color = '#007bff';
+                } else if (currentSecond === 2 || currentSecond === 4) {
+                    ninja.style.color = '#dc3545';
+                } else if (currentSecond === 5) {
+                    // Explosion effect
+                    shayan.style.transform = 'translateX(-50px) rotate(-10deg)';
+                    ninja.style.transform = 'translateX(50px) rotate(10deg)';
+
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        document.getElementById('mainScreen').style.display = 'block';
+                        startMainTitleAnimation();
+                    }, 500);
+
+                    clearInterval(loadingInterval);
+                }
+            }, 1000);
         }
 
-        function showVideoPage2() {
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('videoPage2').style.display = 'block';
+        // Main title animation
+        let titleInterval;
+
+        function startMainTitleAnimation() {
+            const titleShayan = document.querySelector('.title-shayan');
+            const titleNinja = document.querySelector('.title-ninja');
+            let cycle = 0;
+
+            titleInterval = setInterval(() => {
+                cycle++;
+
+                // Reset colors
+                titleShayan.style.color = 'white';
+                titleNinja.style.color = 'white';
+
+                if (cycle % 4 === 1) {
+                    titleShayan.style.color = '#007bff';
+                } else if (cycle % 4 === 2) {
+                    titleNinja.style.color = '#dc3545';
+                } else if (cycle % 4 === 3 || cycle % 4 === 0) {
+                    titleShayan.style.color = '#dc3545';
+                    titleNinja.style.color = '#dc3545';
+                }
+            }, 1000);
         }
 
-        function showMainPage() {
-            document.getElementById('videoPage1').style.display = 'none';
-            document.getElementById('videoPage2').style.display = 'none';
-            document.getElementById('mainPage').style.display = 'block';
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuPanel = document.getElementById('menuPanel');
+        let menuOpen = false;
+
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            menuOpen = !menuOpen;
+            menuPanel.style.display = menuOpen ? 'flex' : 'none';
+        });
+
+        menuPanel.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://t.me/Shayan_ninja4X', '_blank');
+        });
+
+        // Like system storage
+        let likeData = {};
+        let userVotes = {};
+
+        // Initialize like data
+        for (let i = 1; i <= 6; i++) {
+            likeData[i] = {
+                likes: 0,
+                dislikes: 0
+            };
         }
 
-        // Start the loading animation when page loads
-        window.addEventListener('load', startLoadingAnimation);
+        function handleLike(pageId, type) {
+            const userId = 'user_' + Math.random().toString(36).substr(2, 9);
+
+            if (userVotes[pageId]) {
+                alert('شما قبلاً رای داده‌اید!');
+                return;
+            }
+
+            userVotes[pageId] = type;
+
+            if (type === 'like') {
+                likeData[pageId].likes++;
+                document.querySelector(`#contentPage${pageId} .like-btn`).classList.add('active');
+            } else {
+                likeData[pageId].dislikes++;
+                document.querySelector(`#contentPage${pageId} .dislike-btn`).classList.add('active');
+            }
+
+            updateLikeCounts(pageId);
+        }
+
+        function updateLikeCounts(pageId) {
+            document.getElementById(`likeCount${pageId}`).textContent = likeData[pageId].likes;
+            document.getElementById(`dislikeCount${pageId}`).textContent = likeData[pageId].dislikes;
+        }
+
+        // Navigation functions
+        function showContentPage(pageNum) {
+            document.getElementById('mainScreen').style.display = 'none';
+            document.getElementById(`contentPage${pageNum}`).style.display = 'block';
+            clearInterval(titleInterval);
+        }
+
+        function showMainScreen() {
+            // Hide all content pages
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`contentPage${i}`).style.display = 'none';
+            }
+            document.getElementById('mainScreen').style.display = 'block';
+            startMainTitleAnimation();
+        }
+
+        // Initialize like counts
+        window.addEventListener('load', function() {
+            for (let i = 1; i <= 6; i++) {
+                updateLikeCounts(i);
+            }
+        });
+
+        // Start loading animation
+        window.addEventListener('load', function() {
+            startLoadingAnimation();
+        });
+
+        // Prevent context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Prevent text selection on double click
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 
